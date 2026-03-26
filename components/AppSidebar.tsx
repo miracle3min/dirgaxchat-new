@@ -369,8 +369,8 @@ function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex justify-between p-2 pb-0">
-          <span className="text-lg font-bold text-gradient">DirgaX Chat</span>
+        <div className="flex items-center justify-between p-2 pb-0">
+          <div className="flex items-center gap-2"><img src="/dirgax-logo.png" alt="DirgaX Chat" className="h-8 w-8 rounded-lg" /><span className="text-lg font-bold text-gradient">DirgaX Chat</span></div>
           <Button
             className="h-8 w-8 [&_svg]:size-5"
             variant="ghost"
