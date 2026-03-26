@@ -15,7 +15,7 @@ import AssistantMarketUrl from '@/utils/AssistantMarketUrl'
 
 function CardSkeleton() {
   return (
-    <Card className="w-full cursor-pointer transition-colors hover:drop-shadow-md dark:hover:border-white/80">
+    <Card className="w-full cursor-pointer transition-all clay-card hover:scale-[1.02] dark:hover:border-white/10">
       <CardHeader className="p-4 pb-1 max-sm:px-3 max-sm:py-2 max-sm:pb-0">
         <Skeleton className="my-1 h-5 w-[160px]" />
       </CardHeader>
@@ -99,7 +99,7 @@ function AssistantRecommend() {
               return (
                 <Card
                   key={assistant.identifier}
-                  className="cursor-pointer transition-colors hover:drop-shadow-md dark:hover:border-white/80"
+                  className="cursor-pointer transition-all clay-card hover:scale-[1.02] dark:hover:border-white/10"
                   onClick={() => handleSelectAssistant(assistant.identifier)}
                 >
                   <CardHeader className="p-4 pb-1 max-sm:px-3 max-sm:py-2">

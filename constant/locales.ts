@@ -1,7 +1,8 @@
 export default {
+  'id-ID': 'Bahasa Indonesia',
+  'en-US': 'English',
   'ar-SA': 'العربية',
   'de-DE': 'Deutsch',
-  'en-US': 'English',
   'es-ES': 'Español',
   'fr-FR': 'Français',
   'ja-JP': '日本語',

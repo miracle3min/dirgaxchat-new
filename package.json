@@ -1,8 +1,8 @@
 {
-  "name": "gemini-next-chat",
-  "version": "1.10.8",
+  "name": "dirgax-chat",
+  "version": "2.0.0",
   "private": true,
-  "author": "Amery2010 <amery@xiangfa.org>",
+  "author": "DirgaX",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
@@ -97,5 +97,7 @@
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5"
-  }
+  },
+  "description": "Smart Chat In Your Hand!",
+  "homepage": "https://dirgax-app.vercel.app"
 }

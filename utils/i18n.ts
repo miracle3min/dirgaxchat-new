@@ -12,6 +12,10 @@ const normalizeLocale = (locale: string) => {
     case 'en': {
       return 'en'
     }
+    case 'id-ID':
+    case 'id': {
+      return 'id-ID'
+    }
     default: {
       return locale
     }
@@ -26,7 +30,7 @@ i18n
     }),
   )
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'id-ID',
   })
 
 export default i18n

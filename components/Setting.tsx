@@ -57,7 +57,7 @@ const formSchema = z.object({
 })
 
 function filterModel(models: Model[] = []) {
-  return models.filter((model) => model.name.startsWith('models/gemini-'))
+  return models
 }
 
 function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {

@@ -18,7 +18,7 @@
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
     },
-    "longDescription": "Your private Gemini application, supporting Gemini 1.5 Pro, Gemini 1.5 Flash, Gemini Pro and Gemini Pro Vision models.",
+    "longDescription": "Smart Chat In Your Hand! — Your private AI assistant.",
     "macOS": {
       "entitlements": "Release.entitlements",
       "exceptionDomain": "",
@@ -27,22 +27,22 @@
       "signingIdentity": null
     },
     "resources": [],
-    "shortDescription": "Your private Gemini application.",
+    "shortDescription": "Smart Chat In Your Hand!",
     "linux": {
       "deb": {
         "depends": []
       }
     }
   },
-  "productName": "gemini-next-chat",
-  "mainBinaryName": "gemini-next-chat",
+  "productName": "dirgax-chat",
+  "mainBinaryName": "dirgax-chat",
   "version": "1.10.1",
   "identifier": "com.u14.app",
   "plugins": {},
   "app": {
     "windows": [
       {
-        "title": "Gemini Next Chat",
+        "title": "DirgaX Chat",
         "width": 1024,
         "height": 768,
         "minWidth": 375,

@@ -10,7 +10,6 @@ import {
   Settings,
   Square,
   SendHorizontal,
-  Github,
   PanelLeftOpen,
   PanelLeftClose,
 } from 'lucide-react'
@@ -971,7 +970,7 @@ export default function Home() {
   return (
     <main className="mx-auto flex h-screen max-h-[-webkit-fill-available] w-full max-w-screen-lg flex-col justify-between overflow-hidden max-lg:max-w-screen-md">
       <div className="flex w-full justify-between px-4 pb-2 pr-2 pt-10 max-md:pt-4 max-sm:pr-2 max-sm:pt-4">
-        <div className="flex items-center text-red-400">
+        <div className="flex items-center text-[#0A1A5C] dark:text-[#00C9B7]">
           <div>
             <MessageCircleHeart className="h-10 w-10 max-sm:h-8 max-sm:w-8" />
           </div>
@@ -983,12 +982,8 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="flex w-32 items-center gap-1 max-sm:gap-0">
-          <a href="https://github.com/u14app/gemini-next-chat" target="_blank">
-            <Button className="h-8 w-8" title={t('github')} variant="ghost" size="icon">
-              <Github className="h-5 w-5" />
-            </Button>
-          </a>
+        <div className="flex items-center gap-1 max-sm:gap-0">
+
           <ThemeToggle />
           <Button
             className="h-8 w-8"
@@ -1030,7 +1025,7 @@ export default function Home() {
               >
                 <div
                   className={cn(
-                    'relative flex gap-3 p-4 pb-1 hover:bg-gray-50/80 dark:hover:bg-gray-900/80',
+                    'relative flex gap-3 p-4 pb-1 hover:bg-[hsl(var(--accent)/0.4)] dark:hover:bg-[hsl(var(--accent)/0.2)]',
                     msg.role === 'user' && chatLayout === 'chat' ? 'flex-row-reverse text-right' : '',
                   )}
                 >
@@ -1040,14 +1035,14 @@ export default function Home() {
             ))}
             {executingPlugins.length > 0 ? (
               <div className="group text-slate-500 transition-colors last:text-slate-800 hover:text-slate-800 dark:last:text-slate-400 dark:hover:text-slate-400 max-sm:hover:bg-transparent">
-                <div className="flex gap-3 p-4 hover:bg-gray-50/80 dark:hover:bg-gray-900/80">
+                <div className="flex gap-3 p-4 hover:bg-[hsl(var(--accent)/0.4)] dark:hover:bg-[hsl(var(--accent)/0.2)]">
                   <MessageItem id="message" role="function" parts={genPluginStatusPart(executingPlugins)} />
                 </div>
               </div>
             ) : null}
             {isThinking ? (
               <div className="group text-slate-500 transition-colors last:text-slate-800 hover:text-slate-800 dark:last:text-slate-400 dark:hover:text-slate-400 max-sm:hover:bg-transparent">
-                <div className="flex gap-3 p-4 pb-1 hover:bg-gray-50/80 dark:hover:bg-gray-900/80">
+                <div className="flex gap-3 p-4 pb-1 hover:bg-[hsl(var(--accent)/0.4)] dark:hover:bg-[hsl(var(--accent)/0.2)]">
                   <MessageItem
                     id="message"
                     role="model"
@@ -1064,7 +1059,7 @@ export default function Home() {
             ) : null}
             {errorMessage !== '' ? (
               <div className="group text-slate-500 transition-colors last:text-slate-800 hover:text-slate-800 dark:last:text-slate-400 dark:hover:text-slate-400 max-sm:hover:bg-transparent">
-                <div className="flex gap-3 p-4 hover:bg-gray-50/80 dark:hover:bg-gray-900/80">
+                <div className="flex gap-3 p-4 hover:bg-[hsl(var(--accent)/0.4)] dark:hover:bg-[hsl(var(--accent)/0.2)]">
                   <ErrorMessageItem content={errorMessage} onRegenerate={() => handleResubmit('error')} />
                 </div>
               </div>
@@ -1073,7 +1068,7 @@ export default function Home() {
               <div className="group text-slate-500 transition-colors last:text-slate-800 hover:text-slate-800 dark:last:text-slate-400 dark:hover:text-slate-400 max-sm:hover:bg-transparent">
                 <div
                   className={cn(
-                    'relative flex gap-3 p-4 pb-1 hover:bg-gray-50/80 dark:hover:bg-gray-900/80',
+                    'relative flex gap-3 p-4 pb-1 hover:bg-[hsl(var(--accent)/0.4)] dark:hover:bg-[hsl(var(--accent)/0.2)]',
                     chatLayout === 'chat' ? 'flex-row-reverse text-right' : '',
                   )}
                 >
@@ -1103,7 +1098,7 @@ export default function Home() {
         <div className="flex w-full items-end gap-2 max-sm:pb-[calc(var(--safe-area-inset-bottom)-16px)]">
           {enablePlugin ? <PluginList /> : null}
           <div
-            className="relative box-border flex w-full flex-1 flex-col rounded-md border border-input bg-[hsl(var(--background))] py-1 max-sm:py-0"
+            className="relative box-border flex w-full flex-1 flex-col rounded-2xl border border-input bg-[hsl(var(--background))] py-1 max-sm:py-0 clay-input"
             onPaste={handlePaste}
             onDrop={handleDrop}
             onDragOver={(ev) => ev.preventDefault()}

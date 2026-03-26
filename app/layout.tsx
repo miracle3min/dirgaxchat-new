@@ -11,11 +11,10 @@ import './globals.css'
 
 const HEAD_SCRIPTS = process.env.HEAD_SCRIPTS as string
 
-const APP_NAME = 'Gemini Next Chat'
-const APP_DEFAULT_TITLE = 'Gemini Next Chat'
-const APP_TITLE_TEMPLATE = '%s - PWA App'
-const APP_DESCRIPTION =
-  'Deploy your private Gemini application for free with one click, supporting Gemini 1.5 and Gemini 2.0 models. 一键免费部署您的私人 Gemini 应用, 支持 Gemini 1.5 和 Gemini 2.0 模型。'
+const APP_NAME = 'DirgaX Chat'
+const APP_DEFAULT_TITLE = 'DirgaX Chat'
+const APP_TITLE_TEMPLATE = '%s - DirgaX Chat'
+const APP_DESCRIPTION = 'Smart Chat In Your Hand! — Asisten AI pribadi yang cerdas, cepat, dan aman.'
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
-  keywords: ['Gemini', 'Gemini Pro', 'Gemini 1.5', 'Gemini 2.0', 'Gemini Chat', 'AI', 'Chatgpt'],
+  keywords: ['DirgaX', 'AI Chat', 'Smart Assistant', 'Private AI', 'Chatbot'],
   icons: {
     icon: {
       type: 'image/svg+xml',
@@ -36,7 +35,6 @@ export const metadata: Metadata = {
     capable: false,
     statusBarStyle: 'default',
     title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
   },
   formatDetection: {
     telephone: false,
@@ -71,7 +69,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="auto" suppressHydrationWarning>
+    <html lang="id" dir="auto" suppressHydrationWarning>
       <head>{HEAD_SCRIPTS ? <Script id="headscript">{HEAD_SCRIPTS}</Script> : null}</head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
