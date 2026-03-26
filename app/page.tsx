@@ -975,7 +975,7 @@ export default function Home() {
           </div>
           <div className="ml-1 flex-1 max-sm:ml-0.5">
             <h2 className="text-line-clamp break-all font-bold leading-6 max-sm:text-sm">{conversationTitle}</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-4 mt-0.5">Gemini 2.5 Flash</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-4 mt-0.5">Gemini 3.1 Flash Lite</p>
           </div>
         </div>
         <div className="flex items-center gap-1 max-sm:gap-0">
