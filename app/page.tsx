@@ -27,6 +27,7 @@ import { usePluginStore } from '@/store/plugin'
 import { pluginHandle } from '@/plugins'
 import i18n from '@/utils/i18n'
 import chat, { type RequestProps } from '@/utils/chat'
+import openRouterChat from '@/utils/openRouterChat'
 import { summarizePrompt, getVoiceModelPrompt, getSummaryPrompt, getTalkAudioPrompt } from '@/utils/prompt'
 import AudioStream from '@/utils/AudioStream'
 import PromiseQueue from '@/utils/PromiseQueue'
@@ -39,7 +40,7 @@ import { generateImages, type ImageGenerationRequest } from '@/utils/generateIma
 import { detectLanguage, formatTime, readFileAsDataURL, base64ToBlob, isOfficeFile } from '@/utils/common'
 import { cn } from '@/utils'
 import { GEMINI_API_BASE_URL } from '@/constant/urls'
-import { OldVisionModel, OldTextModel } from '@/constant/model'
+import { OldVisionModel, OldTextModel, Model, OpenRouterModel, DefaultOpenRouterModel } from '@/constant/model'
 import mimeType from '@/constant/attachment'
 import { customAlphabet } from 'nanoid'
 import { isFunction, findIndex, isUndefined, entries, flatten, isEmpty } from 'lodash-es'
@@ -241,6 +242,59 @@ export default function Home() {
         const thoughtWriter = thoughtWritable.getWriter()
         const inlineDataWriter = inlineDataWritable.getWriter()
         const groundingSearchWriter = groundingSearchWritable.getWriter()
+
+        // OpenRouter provider path
+        const { provider } = useSettingStore.getState()
+        if (provider === 'openrouter') {
+          const orStream = await openRouterChat({
+            messages,
+            systemInstruction,
+            model,
+            apiKey: apiKey !== '' ? apiKey : '',
+            generationConfig,
+          })
+
+          onResponse(readable, thoughtReadable, inlineDataReadable, groundingSearchReadable)
+
+          const reader = orStream.getReader()
+          const decoder = new TextDecoder()
+          let buffer = ''
+
+          try {
+            while (true) {
+              const { done, value } = await reader.read()
+              if (done) break
+
+              buffer += decoder.decode(value, { stream: true })
+              const lines = buffer.split('\n')
+              buffer = lines.pop() || ''
+
+              for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                  const data = line.slice(6)
+                  if (data === '[DONE]') continue
+                  try {
+                    const json = JSON.parse(data)
+                    const content = json.choices?.[0]?.delta?.content
+                    if (content) {
+                      writer.write(content)
+                    }
+                  } catch {}
+                }
+              }
+            }
+          } finally {
+            writer.close()
+            thoughtWriter.close()
+            inlineDataWriter.close()
+            groundingSearchWriter.close()
+          }
+
+          setIsThinking(false)
+          return
+        }
+
+        // Gemini provider path
         onResponse(readable, thoughtReadable, inlineDataReadable, groundingSearchReadable)
 
         const handleImage = async (part: InlineDataPart) => {
@@ -975,7 +1029,27 @@ export default function Home() {
           </div>
           <div className="ml-1 flex-1 max-sm:ml-0.5">
             <h2 className="text-line-clamp break-all font-bold leading-6 max-sm:text-sm">{conversationTitle}</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-4 mt-0.5">Gemini 3.1 Flash Lite</p>
+            <select
+                  value={model}
+                  onChange={(e) => {
+                    const newModel = e.target.value
+                    const isOpenRouter = newModel.includes('/') && !newModel.startsWith('gemini')
+                    const newProvider = isOpenRouter ? 'openrouter' : 'gemini'
+                    useSettingStore.getState().update({ model: newModel, provider: newProvider })
+                  }}
+                  className="bg-transparent text-xs font-medium text-slate-500 dark:text-slate-400 outline-none cursor-pointer hover:text-foreground transition-colors max-w-[180px] truncate leading-4 mt-0.5"
+                >
+                  <optgroup label="Gemini">
+                    {Object.entries(Model).map(([id, name]) => (
+                      <option key={id} value={id}>{name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="OpenRouter (Free)">
+                    {Object.entries(OpenRouterModel).map(([id, name]) => (
+                      <option key={id} value={id}>{name}</option>
+                    ))}
+                  </optgroup>
+                </select>
           </div>
         </div>
         <div className="flex items-center gap-1 max-sm:gap-0">

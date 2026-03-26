@@ -35,6 +35,7 @@ const defaultSetting: DefaultSetting = {
   safety: 'none',
   autoStartRecord: false,
   autoStopRecord: false,
+  provider: 'gemini',
 }
 
 export const useSettingStore = create(

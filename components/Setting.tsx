@@ -22,6 +22,7 @@ import ResponsiveDialog from '@/components/ResponsiveDialog'
 import i18n from '@/utils/i18n'
 import locales from '@/constant/locales'
 import { useSettingStore, useEnvStore } from '@/store/setting'
+import { Model, OpenRouterModel } from '@/constant/model'
 import { toPairs, values, omitBy, isFunction } from 'lodash-es'
 
 import pkg from '@/package.json'
@@ -258,6 +259,39 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                           {field.value === 0 ? '∞' : field.value}
                         </span>
                       </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </SettingSection>
+
+            <SettingSection icon={Brain} title="Model">
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-3 space-y-0">
+                    <FormLabel className="text-left sm:text-right text-sm">Model</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                          const isOpenRouter = value.includes('/') && !value.startsWith('gemini')
+                          const provider = isOpenRouter ? 'openrouter' : 'gemini'
+                          useSettingStore.getState().update({ model: value, provider: provider as 'gemini' | 'openrouter' })
+                        }}
+                      >
+                        <SelectTrigger className="col-span-3"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {Object.entries(Model).map(([id, name]) => (
+                            <SelectItem key={id} value={id}>Gemini - {name}</SelectItem>
+                          ))}
+                          {Object.entries(OpenRouterModel).map(([id, name]) => (
+                            <SelectItem key={id} value={id}>OpenRouter - {name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                   </FormItem>
                 )}
