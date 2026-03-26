@@ -58,7 +58,7 @@ interface AnswerParams {
   onError?: (error: string, code?: number) => void
 }
 
-const TEXTAREA_DEFAULT_HEIGHT = 30
+const TEXTAREA_DEFAULT_HEIGHT = 44
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 12)
 
 const MessageItem = dynamic(() => import('@/components/MessageItem'))
@@ -69,7 +69,6 @@ const Setting = dynamic(() => import('@/components/Setting'))
 const FileUploader = dynamic(() => import('@/components/FileUploader'))
 const AttachmentArea = dynamic(() => import('@/components/AttachmentArea'))
 const PluginList = dynamic(() => import('@/components/PluginList'))
-const ModelSelect = dynamic(() => import('@/components/ModelSelect'))
 const TalkWithVoice = dynamic(() => import('@/components/TalkWithVoice'))
 const MultimodalLive = dynamic(() => import('@/components/MultimodalLive'))
 
@@ -976,10 +975,7 @@ export default function Home() {
           </div>
           <div className="ml-1 flex-1 max-sm:ml-0.5">
             <h2 className="text-line-clamp break-all font-bold leading-6 max-sm:text-sm">{conversationTitle}</h2>
-            <ModelSelect
-              className="flex h-4 justify-start border-none px-0 py-0 text-left leading-4 text-slate-500 hover:text-slate-700 dark:hover:text-slate-400"
-              defaultModel={model}
-            />
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-4 mt-0.5">Gemini 3 Flash Lite</p>
           </div>
         </div>
         <div className="flex items-center gap-1 max-sm:gap-0">
@@ -1094,11 +1090,11 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="max-w-screen-lg bg-background px-4 pb-8 pt-2 max-lg:max-w-screen-md max-md:pb-4 max-sm:p-2 max-sm:pb-3">
+      <div className="max-w-screen-lg bg-background px-4 pb-8 pt-2 max-lg:max-w-screen-md max-md:pb-5 max-sm:px-3 max-sm:pb-4 max-sm:pt-2">
         <div className="flex w-full items-end gap-2 max-sm:pb-[calc(var(--safe-area-inset-bottom)-16px)]">
           {enablePlugin ? <PluginList /> : null}
           <div
-            className="relative box-border flex w-full flex-1 flex-col rounded-2xl border border-input bg-[hsl(var(--background))] py-1 max-sm:py-0 clay-input"
+            className="relative box-border flex w-full flex-1 flex-col rounded-2xl border border-input bg-[hsl(var(--background))] py-1.5 max-sm:py-1 clay-input"
             onPaste={handlePaste}
             onDrop={handleDrop}
             onDragOver={(ev) => ev.preventDefault()}
@@ -1109,7 +1105,7 @@ export default function Home() {
             <textarea
               autoFocus
               className={cn(
-                'max-h-[120px] w-full resize-none border-none bg-transparent px-2 pt-1 text-sm leading-6 transition-[height] focus-visible:outline-none',
+                'max-h-[200px] w-full resize-none border-none bg-transparent px-3 py-2 text-base leading-7 transition-[height] focus-visible:outline-none max-sm:text-sm max-sm:leading-6 max-sm:px-2.5',
                 !supportSpeechRecognition ? 'pr-8' : 'pr-16',
               )}
               style={{ height: `${textareaHeight}px` }}
