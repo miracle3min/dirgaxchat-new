@@ -11,4 +11,4 @@ export const OldVisionModel = ['gemini-pro-vision', 'gemini-1.0-pro-vision-lates
 
 export const OldTextModel = ['gemini-1.0-pro', 'gemini-1.0-pro-latest', 'gemini-pro']
 
-export const DefaultModel = 'gemini-3-flash-lite-preview'
+export const DefaultModel = 'gemini-2.5-flash'
