@@ -214,16 +214,17 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
 
   return (
     <ResponsiveDialog
+      className="clay-card max-w-5xl w-full sm:w-[90%] border-0 p-0 shadow-2xl"
       open={open}
       onClose={onClose}
-      title={t('setting')}
-      description={t('settingDescription')}
+      title={<span className="text-lg font-bold text-gradient">{t('setting')}</span>}
+      description={<span className="text-sm text-muted-foreground">{t('settingDescription')}</span>}
       footer={
         <>
-          <Button className="flex-1" type="submit" onClick={form.handleSubmit(handleSubmit)}>
+          <Button className="cloth-btn clay-btn flex-1 min-h-[42px]" type="submit" onClick={form.handleSubmit(handleSubmit)}>
             {t('save')}
           </Button>
-          <Button className="flex-1 max-sm:mt-2" variant="outline" onClick={onClose}>
+          <Button className="flex-1 min-h-[42px] max-sm:mt-2" variant="outline" onClick={onClose}>
             {t('cancel')}
           </Button>
         </>
@@ -232,405 +233,357 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <Tabs defaultValue="general">
-            <TabsList className="mx-auto grid h-fit w-full grid-cols-4">
-              <TabsTrigger className="text-wrap" value="general">
+            <TabsList className="mx-auto grid w-full grid-cols-2 gap-2 rounded-xl bg-[hsl(var(--card))]/80 p-1 shadow-inner sm:grid-cols-4">
+              <TabsTrigger className="text-wrap rounded-lg px-2 py-1 text-xs sm:text-sm" value="general">
                 {t('generalSetting')}
               </TabsTrigger>
-              <TabsTrigger className="text-wrap" value="model">
+              <TabsTrigger className="text-wrap rounded-lg px-2 py-1 text-xs sm:text-sm" value="model">
                 {t('llmModel')}
               </TabsTrigger>
-              <TabsTrigger className="text-wrap" value="params">
+              <TabsTrigger className="text-wrap rounded-lg px-2 py-1 text-xs sm:text-sm" value="params">
                 {t('modelParams')}
               </TabsTrigger>
-              <TabsTrigger className="text-wrap" disabled={hiddenTalkPanel} value="voice">
+              <TabsTrigger className="text-wrap rounded-lg px-2 py-1 text-xs sm:text-sm" disabled={hiddenTalkPanel} value="voice">
                 {t('voiceServer')}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general">
-              <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
-                {!hiddenPasswordInput ? (
+              <div className="clay-card p-4 sm:p-5">
+                <div className="grid w-full gap-4 p-2 sm:p-0">
+                  {!hiddenPasswordInput ? (
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                          <FormLabel className="text-left sm:text-right">
+                            {isProtected ? <span className="leading-12 mr-1 text-red-500">*</span> : null}
+                            {t('accessPassword')}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              className="col-span-3"
+                              type="password"
+                              placeholder={t('accessPasswordPlaceholder')}
+                              {...field}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  ) : null}
                   <FormField
                     control={form.control}
-                    name="password"
+                    name="lang"
                     render={({ field }) => (
-                      <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                        <FormLabel className="text-right">
-                          {isProtected ? <span className="leading-12 mr-1 text-red-500">*</span> : null}
-                          {t('accessPassword')}
-                        </FormLabel>
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('language')}</FormLabel>
                         <FormControl>
-                          <Input
-                            className="col-span-3"
-                            type="password"
-                            placeholder={t('accessPasswordPlaceholder')}
-                            {...field}
-                          />
+                          <Select value={field.value} onValueChange={handleLangChange}>
+                            <SelectTrigger className="col-span-3">
+                              <SelectValue placeholder={t('followTheSystem')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <LangOptions />
+                            </SelectContent>
+                          </Select>
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                ) : null}
-                <FormField
-                  control={form.control}
-                  name="lang"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('language')}</FormLabel>
-                      <FormControl>
-                        <Select value={field.value} onValueChange={handleLangChange}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder={t('followTheSystem')} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <LangOptions />
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                {pwaInstall ? (
-                  <div className="grid grid-cols-4 items-center gap-4 space-y-0">
-                    <Label className="text-right">{t('installPwa')}</Label>
-                    <Button className="col-span-3" type="button" variant="ghost" onClick={() => handlePwaInstall()}>
-                      <MonitorDown className="mr-1.5 h-4 w-4" />
-                      {t('pwaInstall')}
+                  {pwaInstall ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                      <Label className="text-left sm:text-right">{t('installPwa')}</Label>
+                      <Button className="col-span-3" type="button" variant="ghost" onClick={() => handlePwaInstall()}>
+                        <MonitorDown className="mr-1.5 h-4 w-4" />
+                        {t('pwaInstall')}
+                      </Button>
+                    </div>
+                  ) : null}
+                  <div className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                    <Label className="text-left sm:text-right">{t('resetSetting')}</Label>
+                    <Button
+                      className="col-span-3 hover:text-red-500"
+                      type="button"
+                      variant="ghost"
+                      onClick={(ev) => {
+                        ev.stopPropagation()
+                        ev.preventDefault()
+                        handleReset()
+                      }}
+                    >
+                      {t('resetAllSettings')}
                     </Button>
                   </div>
-                ) : null}
-                <div className="grid grid-cols-4 items-center gap-4 space-y-0">
-                  <Label className="text-right">{t('resetSetting')}</Label>
-                  <Button
-                    className="col-span-3 hover:text-red-500"
-                    type="button"
-                    variant="ghost"
-                    onClick={(ev) => {
-                      ev.stopPropagation()
-                      ev.preventDefault()
-                      handleReset()
-                    }}
-                  >
-                    {t('resetAllSettings')}
-                  </Button>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4 space-y-0">
-                  <Label className="text-right">{t('version')}</Label>
-                  <div className="col-span-3 text-center leading-10">
-                    {`v${pkg.version}`}{' '}
-                    <small>
-                      (
-                      <a
-                        className="underline underline-offset-2"
-                        href="#"
-                        target="_blank"
-                      >
-                        {t('checkForUpdate')}
-                      </a>
-                      )
-                    </small>
+                  <div className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                    <Label className="text-left sm:text-right">{t('version')}</Label>
+                    <div className="col-span-3 text-center leading-10">
+                      {`v${pkg.version}`}{' '}
+                      <small>
+                        (
+                        <a
+                          className="underline underline-offset-2"
+                          href="#"
+                          target="_blank"
+                        >
+                          {t('checkForUpdate')}
+                        </a>
+                        )
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
             </TabsContent>
             <TabsContent value="model">
-              <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
-                <FormField
-                  control={form.control}
-                  name="assistantIndexUrl"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('assistantMarketUrl')}</FormLabel>
-                      <FormControl>
-                        <Input className="col-span-3" placeholder={ASSISTANT_INDEX_URL} {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="model"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('defaultModel')}</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex gap-1">
-                          <Select
-                            value={field.value}
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                              handleModelChange(value)
-                            }}
-                          >
-                            <SelectTrigger className="flex-1">
-                              <SelectValue placeholder={t('selectDefaultModel')} />
+              <div className="clay-card p-4 sm:p-5">
+                <div className="grid w-full gap-4 p-2 sm:p-0">
+                  <FormField
+                    control={form.control}
+                    name="maxHistoryLength"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('maxHistoryLength')}</FormLabel>
+                        <FormControl>
+                          <div className="sm:col-span-3 flex h-10 gap-2">
+                            <Slider
+                              className="flex-1"
+                              value={[field.value]}
+                              max={50}
+                              step={1}
+                              onValueChange={(values) => field.onChange(values[0])}
+                            />
+                            <span className="w-1/5 text-center text-sm leading-10">
+                              {field.value === 0 ? t('unlimited') : field.value}
+                            </span>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>              </div>            </TabsContent>
+            <TabsContent value="params">
+              <div className="clay-card p-4 sm:p-5">
+                <div className="grid w-full gap-4 p-2 sm:p-0">
+                  <FormField
+                    control={form.control}
+                    name="topP"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">Top-P</FormLabel>
+                        <FormControl>
+                          <div className="col-span-3 flex h-10">
+                            <Slider
+                              className="flex-1"
+                              value={[field.value]}
+                              max={1}
+                              step={0.01}
+                              onValueChange={(values) => field.onChange(values[0])}
+                            />
+                            <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="topK"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">Top-K</FormLabel>
+                        <FormControl>
+                          <div className="col-span-3 flex h-10">
+                            <Slider
+                              className="flex-1"
+                              value={[field.value]}
+                              max={128}
+                              step={1}
+                              onValueChange={(values) => field.onChange(values[0])}
+                            />
+                            <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="temperature"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('temperature')}</FormLabel>
+                        <FormControl>
+                          <div className="col-span-3 flex h-10">
+                            <Slider
+                              className="flex-1"
+                              value={[field.value]}
+                              max={2}
+                              step={0.1}
+                              onValueChange={(values) => field.onChange(values[0])}
+                            />
+                            <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="maxOutputTokens"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('maxOutputTokens')}</FormLabel>
+                        <FormControl>
+                          <div className="col-span-3 flex h-10">
+                            <Slider
+                              className="flex-1"
+                              value={[field.value]}
+                              max={8192}
+                              step={1}
+                              onValueChange={(values) => field.onChange(values[0])}
+                            />
+                            <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="safety"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('safety')}</FormLabel>
+                        <FormControl>
+                          <div className="col-span-3 flex h-10">
+                            <RadioGroup
+                              className="grid w-full grid-cols-4"
+                              value={field.value}
+                              onValueChange={(value) => field.onChange(value)}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="none" id="none" />
+                                <Label htmlFor="none">{t('none')}</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="low" id="low" />
+                                <Label htmlFor="low">{t('low')}</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="middle" id="middle" />
+                                <Label htmlFor="middle">{t('middle')}</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="high" id="high" />
+                                <Label htmlFor="high">{t('high')}</Label>
+                              </div>
+                            </RadioGroup>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="voice">
+              <div className="clay-card p-4 sm:p-5">
+                <div className="grid w-full gap-4 p-2 sm:p-0">
+                  <FormField
+                    control={form.control}
+                    name="sttLang"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('speechRecognition')}</FormLabel>
+                        <FormControl>
+                          <Select value={field.value} onValueChange={field.onChange}>
+                            <SelectTrigger className="col-span-3">
+                              <SelectValue placeholder={t('followTheSystem')} />
                             </SelectTrigger>
-                            <SelectContent className="text-left">
-                              {modelOptions.map((name) => {
+                            <SelectContent>
+                              <LangOptions />
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="ttsLang"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('speechSynthesis')}</FormLabel>
+                        <FormControl>
+                          <Select value={field.value} onValueChange={handleTTSChange}>
+                            <SelectTrigger className="col-span-3">
+                              <SelectValue placeholder={t('followTheSystem')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <LangOptions />
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="ttsVoice"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('soundSource')}</FormLabel>
+                        <FormControl>
+                          <Select value={field.value} onValueChange={field.onChange}>
+                            <SelectTrigger className="col-span-3">
+                              <SelectValue placeholder={t('followTheSystem')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {values(voiceOptions).map((option) => {
                                 return (
-                                  <SelectItem key={name} value={name}>
-                                    {name}
+                                  <SelectItem key={option.value} value={option.value as string}>
+                                    {option.label}
                                   </SelectItem>
                                 )
                               })}
                             </SelectContent>
                           </Select>
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="outline"
-                            title={t('refresh')}
-                            onClick={() => uploadModelList()}
-                          >
-                            <RefreshCw />
-                          </Button>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="maxHistoryLength"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('maxHistoryLength')}</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <Slider
-                            className="flex-1"
-                            value={[field.value]}
-                            max={50}
-                            step={1}
-                            onValueChange={(values) => field.onChange(values[0])}
-                          />
-                          <span className="w-1/5 text-center text-sm leading-10">
-                            {field.value === 0 ? t('unlimited') : field.value}
-                          </span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </TabsContent>
-            <TabsContent value="params">
-              <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
-                <FormField
-                  control={form.control}
-                  name="topP"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">Top-P</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <Slider
-                            className="flex-1"
-                            value={[field.value]}
-                            max={1}
-                            step={0.01}
-                            onValueChange={(values) => field.onChange(values[0])}
-                          />
-                          <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="topK"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">Top-K</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <Slider
-                            className="flex-1"
-                            value={[field.value]}
-                            max={128}
-                            step={1}
-                            onValueChange={(values) => field.onChange(values[0])}
-                          />
-                          <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="temperature"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('temperature')}</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <Slider
-                            className="flex-1"
-                            value={[field.value]}
-                            max={2}
-                            step={0.1}
-                            onValueChange={(values) => field.onChange(values[0])}
-                          />
-                          <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="maxOutputTokens"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('maxOutputTokens')}</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <Slider
-                            className="flex-1"
-                            value={[field.value]}
-                            max={8192}
-                            step={1}
-                            onValueChange={(values) => field.onChange(values[0])}
-                          />
-                          <span className="w-1/5 text-center text-sm leading-10">{field.value}</span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="safety"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('safety')}</FormLabel>
-                      <FormControl>
-                        <div className="col-span-3 flex h-10">
-                          <RadioGroup
-                            className="grid w-full grid-cols-4"
-                            value={field.value}
-                            onValueChange={(value) => field.onChange(value)}
-                          >
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="none" id="none" />
-                              <Label htmlFor="none">{t('none')}</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="low" id="low" />
-                              <Label htmlFor="low">{t('low')}</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="middle" id="middle" />
-                              <Label htmlFor="middle">{t('middle')}</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="high" id="high" />
-                              <Label htmlFor="high">{t('high')}</Label>
-                            </div>
-                          </RadioGroup>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </TabsContent>
-            <TabsContent value="voice">
-              <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
-                <FormField
-                  control={form.control}
-                  name="sttLang"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('speechRecognition')}</FormLabel>
-                      <FormControl>
-                        <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder={t('followTheSystem')} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <LangOptions />
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ttsLang"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('speechSynthesis')}</FormLabel>
-                      <FormControl>
-                        <Select value={field.value} onValueChange={handleTTSChange}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder={t('followTheSystem')} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <LangOptions />
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ttsVoice"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('soundSource')}</FormLabel>
-                      <FormControl>
-                        <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder={t('followTheSystem')} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {values(voiceOptions).map((option) => {
-                              return (
-                                <SelectItem key={option.value} value={option.value as string}>
-                                  {option.label}
-                                </SelectItem>
-                              )
-                            })}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="autoStartRecord"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('autoStartRecord')}</FormLabel>
-                      <FormControl>
-                        <>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
-                          <span className="text-center">{field.value ? t('settingEnable') : t('settingDisable')}</span>
-                        </>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="autoStopRecord"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('autoStopRecord')}</FormLabel>
-                      <FormControl>
-                        <>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
-                          <span className="text-center">{field.value ? t('settingEnable') : t('settingDisable')}</span>
-                        </>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="autoStartRecord"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('autoStartRecord')}</FormLabel>
+                        <FormControl>
+                          <>
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <span className="text-center">{field.value ? t('settingEnable') : t('settingDisable')}</span>
+                          </>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="autoStopRecord"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-1 sm:grid-cols-4 sm:items-center gap-4 space-y-0">
+                        <FormLabel className="text-left sm:text-right">{t('autoStopRecord')}</FormLabel>
+                        <FormControl>
+                          <>
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <span className="text-center">{field.value ? t('settingEnable') : t('settingDisable')}</span>
+                          </>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </TabsContent>
           </Tabs>
