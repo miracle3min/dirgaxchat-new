@@ -370,7 +370,7 @@ function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center justify-between p-2 pb-0">
-          <img src="/dirgax-logo.png" alt="DirgaX Chat" className="h-9 w-auto rounded-lg" />
+          <img src="/dirgax-logo.png" alt="DirgaX Chat" className="h-10 w-auto" />
           <Button
             className="h-8 w-8 [&_svg]:size-5"
             variant="ghost"
