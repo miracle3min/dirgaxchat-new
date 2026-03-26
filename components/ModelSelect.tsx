@@ -21,7 +21,7 @@ function filterModel(models: Model[] = []) {
 function ModelSelect({ className, defaultModel }: Props) {
   const { models } = useModelStore()
   const { update } = useSettingStore()
-  const { modelList: MODEL_LIST, isProtected } = useEnvStore()
+  const { modelList: MODEL_LIST } = useEnvStore()
 
   const modelOptions = useMemo(() => {
     if (models.length > 0) {
@@ -79,17 +79,20 @@ function ModelSelect({ className, defaultModel }: Props) {
   const uploadModelList = useCallback(() => {
     const { update: updateModelList } = useModelStore.getState()
     const { apiKey, apiProxy, password } = useSettingStore.getState()
-    if (apiKey || password || !isProtected) {
-      const key = getRandomKey(apiKey)
-      fetchModels({ apiKey: key, apiProxy, password }).then((result) => {
+    // Always fetch since we have a default API key
+    const key = getRandomKey(apiKey)
+    fetchModels({ apiKey: key, apiProxy, password }).then((result) => {
+      if (result?.models) {
         const models = filterModel(result.models)
         if (models.length > 0) {
           updateModelList(models)
           cachedModelList = true
         }
-      })
-    }
-  }, [isProtected])
+      }
+    }).catch(() => {
+      // Silently fail - will use hardcoded model list as fallback
+    })
+  }, [])
 
   useLayoutEffect(() => {
     if (!cachedModelList) {

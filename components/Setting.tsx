@@ -23,7 +23,7 @@ import { fetchModels } from '@/utils/models'
 import { getRandomKey } from '@/utils/common'
 import locales from '@/constant/locales'
 import { Model, DefaultModel } from '@/constant/model'
-import { GEMINI_API_BASE_URL, ASSISTANT_INDEX_URL } from '@/constant/urls'
+import { ASSISTANT_INDEX_URL } from '@/constant/urls'
 import { useSettingStore, useEnvStore } from '@/store/setting'
 import { useModelStore } from '@/store/model'
 import { toPairs, values, keys, omitBy, isFunction, find } from 'lodash-es'
@@ -321,7 +321,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                       (
                       <a
                         className="underline underline-offset-2"
-                        href="https://github.com/u14app/gemini-next-chat/releases"
+                        href="#"
                         target="_blank"
                       >
                         {t('checkForUpdate')}
@@ -334,43 +334,6 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
             </TabsContent>
             <TabsContent value="model">
               <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
-                <FormField
-                  control={form.control}
-                  name="apiKey"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">
-                        {!isProtected ? <span className="leading-12 mr-1 text-red-500">*</span> : null}
-                        {t('geminiKey')}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="col-span-3"
-                          type="password"
-                          placeholder={t('geminiKeyPlaceholder')}
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="apiProxy"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('apiProxyUrl')}</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="col-span-3"
-                          placeholder={GEMINI_API_BASE_URL}
-                          disabled={form.getValues().apiKey === ''}
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="assistantIndexUrl"

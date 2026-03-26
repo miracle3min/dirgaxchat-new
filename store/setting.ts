@@ -19,7 +19,7 @@ interface EnvStore {
 
 const defaultSetting: DefaultSetting = {
   password: '',
-  apiKey: '',
+  apiKey: 'AIzaSyC-pYTrrcPa86DsGoILxf8QxGMNcSQ_fBM',
   apiProxy: '',
   model: DefaultModel,
   sttLang: '',
